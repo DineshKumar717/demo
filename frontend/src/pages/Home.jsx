@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { useCart } from "../context/CartContext";
+const API = import.meta.env.VITE_API_URL;
 
 const Home = () => {
   const { cartCount } = useCart();
@@ -19,11 +20,11 @@ const Home = () => {
   const handleSave = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/api/products", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form)
-    });
+    const res = await fetch(`${API}/api/products`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(form)
+});
 
     const newProduct = await res.json();
     setProducts(prev => [newProduct, ...prev]);
@@ -34,7 +35,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await fetch("http://localhost:5000/api/products");
+     const res = await fetch(`${API}/api/products`);
       const data = await res.json();
       setProducts(data);
     };

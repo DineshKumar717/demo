@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
+const API = import.meta.env.VITE_API_URL;
 
 const Products = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch(`${API}/api/products`)
       .then(res => res.json())
       .then(data => setProducts(data));
   }, []);

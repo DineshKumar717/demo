@@ -1,11 +1,12 @@
 import React from "react";
 import { useCart } from "../context/CartContext";
+const API = import.meta.env.VITE_API_URL;
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
 
   const buyNow = async () => {
-    await fetch("http://localhost:5000/api/orders", {
+    await fetch(`${API}/api/orders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

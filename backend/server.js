@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
+
 const Product = require("./models/Product");
 const Order = require("./models/Order");
 const orderRoutes = require("./routes/orderRoutes");
@@ -11,7 +13,7 @@ app.use(express.json());
 
 // MongoDB connect
 mongoose
-  .connect("mongodb://127.0.0.1:27017/ecommerce")
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
@@ -28,14 +30,9 @@ app.post("/api/products", async (req, res) => {
   res.status(201).json(savedProduct);
 });
 
-app.post("/api/orders", async (req, res) => {
-  const order = new Order(req.body);
-  const saved = await order.save();
-  res.status(201).json(saved);
-});
-
 app.use("/api/orders", orderRoutes);
 
-app.listen(5000, () =>
-  console.log("Server running on http://localhost:5000")
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`Server running on port ${PORT}`)
 );
